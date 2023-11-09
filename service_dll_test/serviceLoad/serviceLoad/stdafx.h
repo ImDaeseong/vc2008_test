@@ -40,6 +40,8 @@
 
 
 
+#include <winsvc.h>
+
 
 
 

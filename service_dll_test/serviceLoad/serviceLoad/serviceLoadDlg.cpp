@@ -57,9 +57,11 @@ void CserviceLoadDlg::OnPaint()
 	CPaintDC dc(this);
 }
 
+
 //서비스 설치
 void CserviceLoadDlg::OnBnClickedButton1()
 {
+
 	PFN_INSTALLSERVICE pfnInstallService = (PFN_INSTALLSERVICE)::GetProcAddress(m_hDll, "ApiInstallService");
 	
 	if (pfnInstallService)
