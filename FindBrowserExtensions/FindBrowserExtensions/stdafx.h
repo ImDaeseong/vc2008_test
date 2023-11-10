@@ -38,12 +38,16 @@
 #include <afxcontrolbars.h>     // MFC의 리본 및 컨트롤 막대 지원
 
 
+
+#include <vector>
+using namespace std;
+
+
 #include "ExtensionFinder.h"
+#include "RegInfo.h"
 
 
-
-
-
+#define WM_FINDEXTENSION_DONE    WM_USER + 3333
 
 #ifdef _UNICODE
 #if defined _M_IX86

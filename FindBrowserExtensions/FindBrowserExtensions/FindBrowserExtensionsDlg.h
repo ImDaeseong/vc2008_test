@@ -15,6 +15,10 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
+	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg LRESULT OnFindExtensionDone(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -22,4 +26,10 @@ private:
 
 	void initExtension();
 	void clearExtension();
+
+	CString GetFolderPath(CString strFolderPath);
+	void InitCtrl();
+	void InsertListView(CString strItem, CString strDisplayName, CString strItemFullPath);
+	void ViewListInfo();
+	CListCtrl m_ListCtrl;	
 };

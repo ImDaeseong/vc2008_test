@@ -19,7 +19,7 @@ CExtensionFinder::~CExtensionFinder(void)
 
 void CExtensionFinder::initSet()
 {
-
+	m_info.InitPath();
 }
 
 BOOL CExtensionFinder::StartExtensionFinder()
@@ -58,6 +58,7 @@ BOOL CExtensionFinder::StopExtensionFinder()
 
     if (m_hThread != NULL && ::GetExitCodeThread(m_hThread, &dwExitCode) && dwExitCode == STILL_ACTIVE)
     {
+		// 이벤트를 설정하여 스레드에게 중지 요청 
         ::SetEvent(m_hKillEvent);
 
         // 정상적인 종료를 위해 타임아웃과 함께 대기
@@ -80,6 +81,7 @@ DWORD CExtensionFinder::ExtensionFinderThread(LPVOID pParam)
 
     while (pThis->m_bCheckThread)
     {
+		// m_hKillEvent 이벤트가 시그널(발생)되면 스레드 중지
         if (::WaitForSingleObject(pThis->m_hKillEvent, TIMEOUT_IN_MS) == WAIT_OBJECT_0)
         {
             pThis->m_bCheckThread = false;
@@ -96,10 +98,32 @@ DWORD CExtensionFinder::ExtensionFinderThread(LPVOID pParam)
 
 UINT CExtensionFinder::ExtensionFinderParam()
 {
-    SYSTEMTIME st;
-    GetLocalTime(&st);
-    TRACE(_T("ExtensionFinderParam: %02d:%02d:%02d\n"), st.wHour, st.wMinute, st.wSecond);
+	//찾을 경로 정보
+	//m_info.PathExtensionInfo();
 
+	//정보를 검색
+	m_info.FindExtension();
+
+	//정보 검색이 완료 되면 스레드 중지
+	StopExtensionFinder();
+
+	/*
+	std::vector<AddonInfo> addons = m_info.getAddonInfo();
+	for (int i = 0; i < addons.size(); i++)
+	{
+		CString strMsg;
+		strMsg.Format(_T("%s %s %s \n"), addons[i].strItem, addons[i].strDisplayName, addons[i].strItemFullPath);
+		OutputDebugString(strMsg);
+	}
+	*/
+
+	//완료 여부를 메인으로 전달 
+	PostMessage(m_hWnd, WM_FINDEXTENSION_DONE, NULL, NULL);
 
     return 0;
+}
+
+std::vector<AddonInfo> CExtensionFinder::getAddonInfo() const
+{
+    return m_info.getAddonInfo();
 }

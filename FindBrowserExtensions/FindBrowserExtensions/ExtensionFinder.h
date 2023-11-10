@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ExtensionsInfo.h"
+
 class CExtensionFinder
 {
 public:
@@ -23,4 +25,8 @@ private:
 public:
 	BOOL StartExtensionFinder();
 	BOOL StopExtensionFinder();
+	std::vector<AddonInfo> getAddonInfo() const;
+
+private:
+	ExtensionsInfo m_info;	
 };

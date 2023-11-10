@@ -190,11 +190,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExtensionsInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FindBrowserExtensions.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\FindBrowserExtensionsDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RegInfo.cpp"
 				>
 			</File>
 			<File
@@ -228,11 +236,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExtensionsInfo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FindBrowserExtensions.h"
 				>
 			</File>
 			<File
 				RelativePath=".\FindBrowserExtensionsDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RegInfo.h"
 				>
 			</File>
 			<File
@@ -272,5 +288,9 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="FindBrowserExtensions.rc"
+		/>
 	</Globals>
 </VisualStudioProject>
