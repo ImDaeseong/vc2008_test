@@ -30,7 +30,7 @@ BOOL CStockCodeFinderDlg::OnInitDialog()
 
 	InitCtrl();
 
-	initData();
+	loadJson();
 
 	return TRUE;  
 }
@@ -71,7 +71,7 @@ CString CStockCodeFinderDlg::Utf8ToCString(const std::string& utf8String)
     return CString(&wstr[0]);
 }
 
-void CStockCodeFinderDlg::initData()
+void CStockCodeFinderDlg::loadJson()
 {
 	CString strPath = GetModulePath();
     strPath.Append(_T("code.json"));
@@ -82,28 +82,23 @@ void CStockCodeFinderDlg::initData()
 
 
     Json::Reader reader;
-    Json::Value root;
+    Json::Value json;
     std::string line;
 	int i = 0;
 
     while (std::getline(file, line))
     {
-        // ÇÑ ÁÙÀ» JSON °´Ã¼·Î ÆÄ½Ì
+        //JSON °´Ã¼ ÆÄ½Ì
         std::stringstream ss(line);
-
-        if (reader.parse(ss, root))
+        if (reader.parse(ss, json))
         {
 			i++;
 
-            std::string company = root["company"].asString();
-            std::string code = root["code"].asString();
+            std::string company = json["company"].asString();
+            std::string code = json["code"].asString();
 
             CString strCompany = Utf8ToCString(company);
             CString strCode = Utf8ToCString(code);
-
-            //CString strMsg;
-            //strMsg.Format(_T("strCompany:%s strCompany:%s \n"), strCompany, strCode);
-            //OutputDebugString(strMsg);
 
 			STOCKLIST_DATA item;
 			item.strCompany = strCompany;

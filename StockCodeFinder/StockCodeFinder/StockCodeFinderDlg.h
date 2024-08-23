@@ -31,17 +31,16 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnDestroy();
 	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton1();	
 	DECLARE_MESSAGE_MAP()
 
 private:
 	CString GetModulePath();
 	CString Utf8ToCString(const std::string& utf8String);
-	void initData();
+	void loadJson();
 	std::vector<STOCK_DATA> mStockDta;
 
 	void InitCtrl();
 	void InsertListView(CString strCompany, CString strCode, CString strIndex);
 	CListCtrl m_ListCtrl;	
-
 };
