@@ -42,7 +42,6 @@
 using namespace Gdiplus;
 #pragma comment(lib, "gdiplus.lib")
 
-#include "CGdiPlusBitmap.h"
 #include "OverlayWnd.h"
 
 

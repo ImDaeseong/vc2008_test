@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "PngStatic.h"
+#include "resource.h"
 
 CPngStatic::CPngStatic()
 {
@@ -75,11 +76,6 @@ bool CPngStatic::LoadFromResource(LPCTSTR pName, LPCTSTR pType)
     return false;
 }
 
-void CPngStatic::Refresh()
-{
-	UpdateLayered();
-}
-
 BOOL CPngStatic::Create(HWND hParent, CRect rRect)
 {
     CString strClassName = AfxRegisterWndClass(0);
@@ -95,7 +91,8 @@ BOOL CPngStatic::Create(HWND hParent, CRect rRect)
 
     if (bCreate)
     {    
-		//UpdateLayered();
+		LoadFromResource(MAKEINTRESOURCE(IDB_PNG2), _T("PNG"));
+		UpdateLayered();
     }
 
     return bCreate;
@@ -110,7 +107,11 @@ void CPngStatic::UpdateLayered()
 
     CDC* pScreenDC = GetDC();
     CDC memDC;
-    memDC.CreateCompatibleDC(pScreenDC);
+    if (!memDC.CreateCompatibleDC(pScreenDC))
+    {
+        ReleaseDC(pScreenDC);
+        return;
+    }
 
     BITMAPINFO bmpInfo = {};
     bmpInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -122,11 +123,24 @@ void CPngStatic::UpdateLayered()
 
     void* pBits = NULL;
     HBITMAP hBitmap = CreateDIBSection(memDC.m_hDC, &bmpInfo, DIB_RGB_COLORS, &pBits, NULL, 0);
-    HBITMAP hOldBitmap = (HBITMAP)memDC.SelectObject(hBitmap);
+    if (!hBitmap)
+    {
+        ReleaseDC(pScreenDC);
+        return;
+    }
+
+	HBITMAP hOldBitmap = (HBITMAP)memDC.SelectObject(hBitmap);
 
     Graphics graphics(memDC);
+
+	//배경색
     graphics.SetSmoothingMode(SmoothingModeAntiAlias);
+
+	//투명 배경
     graphics.Clear(Color(0, 0, 0, 0));
+
+	//불투명 배경
+	//graphics.Clear(Color(255, 0, 0, 0));
 
     graphics.DrawImage(m_pBitmap, 0, 0, rcClient.Width(), rcClient.Height());
 

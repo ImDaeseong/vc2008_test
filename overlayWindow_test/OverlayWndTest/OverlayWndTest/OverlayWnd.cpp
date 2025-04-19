@@ -96,6 +96,9 @@ void COverlayWnd::UpdateDrawText()
     //투명 배경
     graphics.Clear(Color(0, 0, 0, 0));
 
+	//불투명 배경
+	//graphics.Clear(Color(255, 0, 0, 0));
+
     //텍스트
     DrawText(graphics, _T(m_strText1),m_strFont1, 40, FontStyleBold,
         RectF(20.0f, 40.0f, 110.0f, 60.0f), StringAlignmentFar,
@@ -133,6 +136,7 @@ void COverlayWnd::DrawText(Graphics& graphics,
 {	
 	USES_CONVERSION;
 
+	//배경색
 	//SolidBrush backgroundBrush(bgcolor);
     //graphics.FillRectangle(&backgroundBrush, fRect);
 

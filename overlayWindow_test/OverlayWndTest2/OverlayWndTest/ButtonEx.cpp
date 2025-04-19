@@ -62,7 +62,11 @@ void CButtonEx::UpdateLayered()
 
     CDC* pScreenDC = GetDC();
     CDC memDC;
-    memDC.CreateCompatibleDC(pScreenDC);
+    if (!memDC.CreateCompatibleDC(pScreenDC))
+    {
+        ReleaseDC(pScreenDC);
+        return;
+    }
 
     BITMAPINFO bmpInfo;
     ZeroMemory(&bmpInfo, sizeof(bmpInfo));
@@ -75,10 +79,18 @@ void CButtonEx::UpdateLayered()
 
     void* pBits = NULL;
     HBITMAP hBitmap = CreateDIBSection(memDC.m_hDC, &bmpInfo, DIB_RGB_COLORS, &pBits, NULL, 0);
-    HBITMAP hOldBitmap = (HBITMAP)memDC.SelectObject(hBitmap);
+    if (!hBitmap)
+    {
+        ReleaseDC(pScreenDC);
+        return;
+    }
+
+	HBITMAP hOldBitmap = (HBITMAP)memDC.SelectObject(hBitmap);
 
     Graphics graphics(memDC);
-    graphics.Clear(Color(100, 30, 30, 30));
+    
+	//¹è°æ»ö
+	graphics.Clear(Color(100, 30, 30, 30));
 
     Gdiplus::FontFamily fontFamily(L"µ¸¿ò");
     Gdiplus::Font font(&fontFamily, 20, FontStyleBold, UnitPixel);

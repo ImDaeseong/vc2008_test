@@ -8,8 +8,8 @@ CTextStatic::CTextStatic()
 	m_strFontName = "돋움";
 	m_fontStyle = FontStyleRegular;
     m_txtColor = RGB(0, 0, 0);
-    m_bkColor = RGB(255, 255, 0);//RGB(0, 0, 0);
-    m_alpha = 255;//0;
+    m_bkColor = RGB(0, 0, 0);//RGB(255, 255, 0);
+    m_alpha = 0;//255;
 }
 
 CTextStatic::~CTextStatic()
@@ -36,8 +36,7 @@ BOOL CTextStatic::Create(HWND hParent, CRect rRect, const CString& strText,
     	m_nFontSize = nFontSize;
 		m_strFontName = strFontName;
 		m_fontStyle = fontStyle;
-    	m_txtColor = txtColor;
-    
+    	m_txtColor = txtColor;    
 		UpdateLayered();
     }
 
@@ -82,7 +81,6 @@ void CTextStatic::UpdateLayered()
 
     CRect rClient;
     GetClientRect(&rClient);
-
 	
     CDC* pScreenDC = GetDC();
     CDC memDC;
@@ -92,7 +90,7 @@ void CTextStatic::UpdateLayered()
         return;
     }
 	
-
+	// Alpha 채널 포함된 DIBSection 비트맵 생성
     BITMAPINFO bmpInfo;
     ZeroMemory(&bmpInfo, sizeof(bmpInfo));
     bmpInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -114,8 +112,10 @@ void CTextStatic::UpdateLayered()
 
     Graphics graphics(memDC.m_hDC);
     graphics.SetSmoothingMode(SmoothingModeAntiAlias);
+	graphics.SetTextRenderingHint(TextRenderingHintAntiAliasGridFit);
+    graphics.SetPixelOffsetMode(PixelOffsetModeHighQuality);
 
-    // 배경 클리어
+    //배경색
     Color bkColor(m_alpha, GetRValue(m_bkColor), GetGValue(m_bkColor), GetBValue(m_bkColor));
     graphics.Clear(bkColor);
 

@@ -244,10 +244,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CGdiPlusBitmap.h"
-				>
-			</File>
-			<File
 				RelativePath=".\explorer1.h"
 				>
 			</File>

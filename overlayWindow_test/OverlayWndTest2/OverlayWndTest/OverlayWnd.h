@@ -10,6 +10,8 @@ public:
 	COverlayWnd();
 	~COverlayWnd();
 
+	void UpdateDrawBackGround();
+
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnDestroy();
@@ -18,7 +20,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:	
-	CTextStatic m_pTextStatic;
+	CTextStatic m_pTextStatic1;
+	CTextStatic m_pTextStatic2;
+	CTextStatic m_pTextStatic3;
 	CPngStatic m_pngStatic;
 	CButtonEx m_pButton;
 
