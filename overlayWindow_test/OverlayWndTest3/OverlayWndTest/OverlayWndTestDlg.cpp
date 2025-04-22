@@ -10,6 +10,7 @@ COverlayWndTestDlg::COverlayWndTestDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(COverlayWndTestDlg::IDD, pParent)
 {
 	m_overWnd = NULL;
+	m_bShow = TRUE;
 }
 
 void COverlayWndTestDlg::DoDataExchange(CDataExchange* pDX)
@@ -19,6 +20,7 @@ void COverlayWndTestDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(COverlayWndTestDlg, CDialog)
 	ON_WM_PAINT()
+	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON1, &COverlayWndTestDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &COverlayWndTestDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
@@ -27,9 +29,10 @@ BOOL COverlayWndTestDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
+	SetTimer(1, 5000, NULL);
+
 	return TRUE;  
 }
-
 
 BOOL COverlayWndTestDlg::DestroyWindow()
 {
@@ -49,6 +52,12 @@ BOOL COverlayWndTestDlg::DestroyWindow()
 void COverlayWndTestDlg::OnPaint()
 {
 	CPaintDC dc(this);
+}
+
+void COverlayWndTestDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	setBrowserMode(m_bShow);
+	m_bShow = !m_bShow; 
 }
 
 void COverlayWndTestDlg::setBrowserMode(BOOL bShow)

@@ -15,12 +15,14 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual BOOL DestroyWindow();
 	afx_msg void OnPaint();	
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton2();
 	DECLARE_MESSAGE_MAP()
 
 public:
 	void setBrowserMode(BOOL bShow);
+	BOOL m_bShow;
 
 	COverlayWnd* m_overWnd;
 };
