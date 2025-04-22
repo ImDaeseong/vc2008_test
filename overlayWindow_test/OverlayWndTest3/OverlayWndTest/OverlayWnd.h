@@ -12,6 +12,7 @@ public:
 	void setDrawFont(CString strFont);
 	void setDrawColor(Gdiplus::Color textcolor);
 	void setDrawColor(COLORREF color);
+	void setDrawBg();
 
 protected:
     afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -33,4 +34,10 @@ private:
 	CString m_strFont;
 
 	Gdiplus::Color m_textcolor;
+
+
+private:
+	bool LoadFromResource(LPCTSTR pName, LPCTSTR pType);
+	Gdiplus::Bitmap* m_pBitmap;
+	HGLOBAL m_hBuffer;
 };

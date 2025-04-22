@@ -265,6 +265,10 @@
 				RelativePath=".\res\OverlayWndTest.rc2"
 				>
 			</File>
+			<File
+				RelativePath=".\res\spritebox.png"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
