@@ -20,7 +20,8 @@ protected:
 	afx_msg void OnBnClickedButton2();
 	DECLARE_MESSAGE_MAP()
 
-public:
+private:
+	BOOL IsTopmostWindow(HWND hCheckWnd);
 	void setBrowserMode(BOOL bShow);
 	BOOL m_bShow;
 
