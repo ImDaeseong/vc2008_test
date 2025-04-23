@@ -123,7 +123,7 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 			static LPCTSTR s_overlayClass = AfxRegisterWndClass(0);
 
 			m_overWnd = new COverlayWnd();
-			m_overWnd->CreateEx(WS_EX_NOACTIVATE | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW, 
+			m_overWnd->CreateEx(WS_EX_NOACTIVATE | WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW,
 				s_overlayClass, NULL, WS_POPUP|WS_VISIBLE, rRc, NULL, 0);
 			
 			m_overWnd->setDrawBg();

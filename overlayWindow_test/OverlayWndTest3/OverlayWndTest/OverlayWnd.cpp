@@ -166,12 +166,11 @@ void COverlayWnd::UpdateDrawText()
 	else
 	{
 		graphics.Clear(Color(0, 0, 0, 0));
-	}	
-
+	}
+	
     //텍스트
     DrawText(graphics, _T(m_strText),m_strFont, 40, FontStyleBold,
-        RectF(0.0f, 0.0f, 460.0f, 40.0f), StringAlignmentFar,
-        m_textcolor, Color(0, 0, 0, 0));
+        RectF(0.0f, 0.0f, 460.0f, 40.0f), StringAlignmentFar, m_textcolor, Color(0, 0, 0, 0));
 
     //Alpha 블렌딩 처리
     POINT ptSrc = { 0, 0 };
