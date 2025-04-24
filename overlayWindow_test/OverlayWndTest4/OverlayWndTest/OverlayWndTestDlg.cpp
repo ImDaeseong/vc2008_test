@@ -136,7 +136,7 @@ void COverlayWndTestDlg::setBrowserModeEx(BOOL bShow)
 			m_overWndEx->setDrawFont(_T("µ¸¿ò"), _T("µ¸¿ò"));
 			m_overWndEx->setDrawColor(RGB(255, 0, 0), RGB(0, 255, 0));
 			m_overWndEx->UpdateDrawText();
-			m_overWndEx->MoveWindow(rRc);
+			//m_overWndEx->MoveWindow(rRc);
 		}
 		else
 		{
@@ -164,12 +164,24 @@ void COverlayWndTestDlg::closeBrowserModeEx()
 
 void COverlayWndTestDlg::OnBnClickedButton1()
 {
+	//º¸ÀÌ±â
+	if(m_overWndEx)
+	{
+		m_overWndEx->SetLayeredWindowAttributes(RGB(0,0,0), 0, LWA_COLORKEY);
+	}
+
 	//setBrowserMode(TRUE);
-	setBrowserModeEx(TRUE);
+	//setBrowserModeEx(TRUE);
 }
 
 void COverlayWndTestDlg::OnBnClickedButton2()
 {
+	//¼û±â±â
+	if(m_overWndEx)
+	{
+		m_overWndEx->SetLayeredWindowAttributes(0, 0, LWA_ALPHA);
+	}
+
 	//setBrowserMode(FALSE);
-	setBrowserModeEx(FALSE);
+	//setBrowserModeEx(FALSE);
 }

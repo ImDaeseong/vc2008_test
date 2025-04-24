@@ -131,7 +131,7 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 			m_overWnd->setDrawFont(_T("µ¸¿ò"));
 			m_overWnd->setDrawColor(RGB(255, 0, 0));
 			m_overWnd->UpdateDrawText();
-			m_overWnd->MoveWindow(rRc);
+			//m_overWnd->MoveWindow(rRc);
 		}
 		else
 		{

@@ -92,7 +92,7 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 			CRect rcWeb(rcBrowser.left + 10, rcBrowser.top + 10, rcBrowser.left + 400, rcBrowser.top + 100);
 
 			if(m_overWnd == NULL)
-			{
+			{				
 				//Á¤Àû º¯¼ö·Î ÇÑ ¹ø¸¸ µî·Ï
 				static LPCTSTR s_overlayClass = AfxRegisterWndClass(0);
 
@@ -104,7 +104,7 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 				m_overWnd->setDrawFont(_T("¸¼Àº °íµñ"), _T("µ¸¿ò"), _T("µ¸¿ò"));
 				m_overWnd->setDrawColor(RGB(255, 0, 0), RGB(0, 255, 0), RGB(255, 255, 0));
 				m_overWnd->UpdateDrawText();
-				m_overWnd->MoveWindow(rcWeb);
+				//m_overWnd->MoveWindow(rcWeb);
 			}
 			else
 			{

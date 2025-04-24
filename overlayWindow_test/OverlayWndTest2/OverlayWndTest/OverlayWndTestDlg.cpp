@@ -100,7 +100,7 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 				m_overWnd->CreateEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW, 
 					s_overlayClass, NULL, WS_POPUP|WS_VISIBLE, rcWeb, this, 0);	
 				m_overWnd->UpdateDrawBackGround();
-				m_overWnd->MoveWindow(rcWeb);
+				//m_overWnd->MoveWindow(rcWeb);
 			}
 			else
 			{
