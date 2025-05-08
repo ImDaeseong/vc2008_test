@@ -49,6 +49,8 @@ COverlayWnd::~COverlayWnd()
 
 BEGIN_MESSAGE_MAP(COverlayWnd, CWnd)
     ON_WM_SIZE()
+	ON_WM_ERASEBKGND()
+    ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 void COverlayWnd::OnSize(UINT nType, int cx, int cy)
@@ -56,6 +58,39 @@ void COverlayWnd::OnSize(UINT nType, int cx, int cy)
    CWnd::OnSize(nType, cx, cy);
    if (nType != SIZE_MINIMIZED)		
 	   UpdateDrawText();
+}
+
+BOOL COverlayWnd::OnEraseBkgnd(CDC* pDC)
+{
+    //깜빡임 방지
+    return TRUE;
+}
+
+void COverlayWnd::OnLButtonDown(UINT nFlags, CPoint point)
+{
+    //클릭 무시
+}
+
+BOOL COverlayWnd::PreTranslateMessage(MSG* pMsg)
+{    
+	switch (pMsg->message)
+    {
+    case WM_KEYDOWN:
+        if (pMsg->wParam == VK_ESCAPE)
+        {
+            //ESC 키 입력 무시
+            return TRUE;
+        }
+        break;
+
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_MOUSEMOVE:
+        //마우스 클릭 및 이동 무시
+        return TRUE;
+    }
+
+    return CWnd::PreTranslateMessage(pMsg); 
 }
 
 void COverlayWnd::UpdateDrawText()

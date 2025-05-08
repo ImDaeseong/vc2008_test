@@ -99,6 +99,10 @@ void COverlayWndTestDlg::setBrowserMode(BOOL bShow)
 				m_overWnd = new COverlayWnd();
 				m_overWnd->CreateEx(WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW, 
 					s_overlayClass, NULL, WS_POPUP|WS_VISIBLE, rcWeb, this, 0);	
+
+				//마우스 이벤트 무시하게
+				::SetWindowLong(m_overWnd->GetSafeHwnd(), GWL_EXSTYLE, ::GetWindowLong(m_overWnd->GetSafeHwnd(), GWL_EXSTYLE) | WS_EX_TRANSPARENT);
+
 				m_overWnd->UpdateDrawBackGround();
 				//m_overWnd->MoveWindow(rcWeb);
 			}
