@@ -105,8 +105,7 @@ CString CLoLManager::GetJson(const CString& strUrl, const CString& strHeaders, u
         return _T("");
     }
 
-    HINTERNET hRequest = HttpOpenRequest(hConnect, _T("GET"), strPageName, HTTP_VERSION, _T(""), NULL,
-        INTERNET_FLAG_SECURE | INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID, 0);
+    HINTERNET hRequest = HttpOpenRequest(hConnect, _T("GET"), strPageName, HTTP_VERSION, _T(""), NULL, INTERNET_FLAG_SECURE | INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID, 0);
     if (hRequest == NULL)
     {
         InternetCloseHandle(hConnect);
@@ -114,15 +113,8 @@ CString CLoLManager::GetJson(const CString& strUrl, const CString& strHeaders, u
         return _T("");
     }
 
-    DWORD dwFlags = SECURITY_FLAG_IGNORE_UNKNOWN_CA |
-        SECURITY_FLAG_IGNORE_REVOCATION |
-        SECURITY_FLAG_IGNORE_REDIRECT_TO_HTTP |
-        SECURITY_FLAG_IGNORE_REDIRECT_TO_HTTPS |
-        SECURITY_FLAG_IGNORE_CERT_DATE_INVALID |
-        SECURITY_FLAG_IGNORE_CERT_CN_INVALID;
-
+    DWORD dwFlags = SECURITY_FLAG_IGNORE_UNKNOWN_CA | SECURITY_FLAG_IGNORE_REVOCATION | SECURITY_FLAG_IGNORE_REDIRECT_TO_HTTP | SECURITY_FLAG_IGNORE_REDIRECT_TO_HTTPS | SECURITY_FLAG_IGNORE_CERT_DATE_INVALID | SECURITY_FLAG_IGNORE_CERT_CN_INVALID;
     InternetSetOption(hRequest, INTERNET_OPTION_SECURITY_FLAGS, &dwFlags, sizeof(dwFlags));
-
     HttpAddRequestHeaders(hRequest, strHeaders, strHeaders.GetLength(), HTTP_ADDREQ_FLAG_REPLACE | HTTP_ADDREQ_FLAG_ADD);
 
     BOOL bSend = HttpSendRequest(hRequest, NULL, 0, NULL, 0);
@@ -241,9 +233,9 @@ CString CLoLManager::MakeAuthHeader(const CString& strPassword)
 	return strResult;
 }
 
-LoLDataInfo CLoLManager::GetGameDataInfo()
+LoLGameInfo CLoLManager::GetDataInfo()
 {
-    LoLDataInfo item;
+    LoLGameInfo item;
 
     CString strPath = GetLockFilePath();
     if (strPath.IsEmpty())
@@ -263,7 +255,7 @@ LoLDataInfo CLoLManager::GetGameDataInfo()
 	strUrl.Format(_T("%s://127.0.0.1/lol-chat/v1/me"), lockFileInfo.strProtocol.GetString());
 	
     std::string response = GetJson(strUrl, strHeaders, lockFileInfo.nPort);
-    OutputDebugString(response.c_str());
+    //OutputDebugString(response.c_str());
 
 	Json::Reader reader;
 	Json::Value root;

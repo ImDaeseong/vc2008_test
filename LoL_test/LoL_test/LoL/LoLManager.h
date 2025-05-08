@@ -1,6 +1,6 @@
 #pragma once
 
-struct LoLDataInfo
+struct LoLGameInfo
 {
 	CString strGameName;
 	CString strGameTag;
@@ -22,7 +22,7 @@ public:
     CLoLManager();
     ~CLoLManager();
 
-	LoLDataInfo GetGameDataInfo();
+	LoLGameInfo GetDataInfo();
 
 private:
 	CString GetLockFilePath();

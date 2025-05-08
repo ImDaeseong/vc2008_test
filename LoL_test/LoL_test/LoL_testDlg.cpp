@@ -56,7 +56,7 @@ void CLoL_testDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == 1)
 	{
-		LoLDataInfo item = m_lolManager->GetGameDataInfo();
+		LoLGameInfo item = m_lolManager->GetDataInfo();
 		CString strGameId = item.strGameId;
 		CString strGameName = item.strGameName;
 		CString strGameTag = item.strGameTag;	
