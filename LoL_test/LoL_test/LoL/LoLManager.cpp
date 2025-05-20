@@ -255,7 +255,7 @@ LoLGameInfo CLoLManager::GetDataInfo()
 	strUrl.Format(_T("%s://127.0.0.1/lol-chat/v1/me"), lockFileInfo.strProtocol.GetString());
 	
     std::string response = GetJson(strUrl, strHeaders, lockFileInfo.nPort);
-    //OutputDebugString(response.c_str());
+    OutputDebugString(response.c_str());
 
 	Json::Reader reader;
 	Json::Value root;

@@ -168,11 +168,12 @@ void COverlayWndEx::UpdateDrawText()
     graphics.SetPixelOffsetMode(PixelOffsetModeHighQuality);
 
 	//투명 배경
-    //graphics.Clear(Color(0, 0, 0, 0));
+    graphics.Clear(Color(0, 0, 0, 0));
 
 	//불투명 배경
     //graphics.Clear(Color(255, 0, 0, 0));
 	
+	/*
 	//배경이미지 적용
 	if(m_pBitmap)
 	{
@@ -182,7 +183,8 @@ void COverlayWndEx::UpdateDrawText()
 	{
 		graphics.Clear(Color(0, 0, 0, 0));
 	}
-	
+	*/
+
 	//텍스트 위치
 	RectF layoutRect1((REAL)rClient.left, (REAL)rClient.top, (REAL)rClient.Width(), (REAL)(rClient.Height() / 2));
 	RectF layoutRect2((REAL)rClient.left, (REAL)(rClient.top + rClient.Height() / 2), (REAL)rClient.Width(), (REAL)(rClient.Height() / 2));
@@ -233,9 +235,13 @@ void COverlayWndEx::DrawText(Graphics& graphics,
     RectF drawRect(fCenterX, fCenterY, textRect.Width, textRect.Height);
 
     StringFormat format;
-    format.SetAlignment(StringAlignmentCenter);
-    format.SetLineAlignment(StringAlignmentNear);
+    //format.SetAlignment(StringAlignmentCenter);
+    //format.SetLineAlignment(StringAlignmentNear);
 
+	format.SetAlignment(StringAlignmentCenter);
+    format.SetLineAlignment(StringAlignmentCenter); //가운데 정렬
+    format.SetTrimming(StringTrimmingEllipsisCharacter); //말줄임 처리
+    format.SetFormatFlags(StringFormatFlagsNoWrap); //한 줄 제한
 
     Gdiplus::SolidBrush brush(textcolor);
     graphics.DrawString(A2W(strText), -1, &font, drawRect, &format, &brush);
