@@ -26,6 +26,7 @@ private:
 	int m_nWidth;
 	int m_nHeight;
 	
+	void BringToForeground();
 	void ShowTray();
 	void HideTray();
 

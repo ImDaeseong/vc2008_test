@@ -62,19 +62,7 @@ BOOL CTray_testDlg::OnInitDialog()
 
 	ModifyStyleEx(WS_EX_APPWINDOW, WS_EX_TOOLWINDOW, 0);
 
-	if(::GetForegroundWindow() != m_hWnd){ 
-		HWND h_active_wnd = ::GetForegroundWindow(); 
-		if(h_active_wnd != NULL){ 
-			DWORD thread_id = GetWindowThreadProcessId(h_active_wnd, NULL); 
-			DWORD current_thread_id = GetCurrentThreadId(); 
-			if(current_thread_id != thread_id){ 
-				if(AttachThreadInput(current_thread_id, thread_id, TRUE)){ 
-					BringWindowToTop(); 
-					AttachThreadInput(current_thread_id, thread_id, FALSE); 
-				} 
-			} 
-		} 
-	} 
+	BringToForeground();
 
 	LoadImage();
 
@@ -133,6 +121,32 @@ void CTray_testDlg::NavigateA(CString strURL)
 	::VariantInit(&vtEmpty);
 	
 	m_WebBrowser.Navigate(strURL, &vtEmpty, &vtEmpty, &vtEmpty, &vtEmpty);
+}
+
+void CTray_testDlg::BringToForeground()
+{
+	if (::GetForegroundWindow() == m_hWnd)
+		return;
+
+	HWND hActiveWnd = ::GetForegroundWindow();
+	if (!hActiveWnd)
+		return;
+
+	DWORD activeThreadId = GetWindowThreadProcessId(hActiveWnd, NULL);
+	DWORD currentThreadId = GetCurrentThreadId();
+
+	if (currentThreadId != activeThreadId)
+	{
+		if (AttachThreadInput(currentThreadId, activeThreadId, TRUE))
+		{
+			BringWindowToTop();
+
+			//포커스 필요시 사용
+			//SetForegroundWindow();
+
+			AttachThreadInput(currentThreadId, activeThreadId, FALSE);
+		}
+	}
 }
 
 void CTray_testDlg::ShowTray()
