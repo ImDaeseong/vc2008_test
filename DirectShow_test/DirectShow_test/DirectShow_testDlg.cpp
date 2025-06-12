@@ -38,7 +38,7 @@ BOOL CDirectShow_testDlg::DestroyWindow()
 }
 
 void CDirectShow_testDlg::OnTimer(UINT_PTR nIDEvent)
-{
+{	
 	IMediaSeeking* pSeek = m_DirectShow.GetSeek();
 	if (pSeek)
 	{
@@ -121,11 +121,9 @@ void CDirectShow_testDlg::OnPaint()
 }
 
 void CDirectShow_testDlg::OnBnClickedButton1()
-{
-	m_DirectShow.Clear();
-	m_DirectShow.init((OAHWND)GetSafeHwnd());
-	m_DirectShow.setNotifyWindow(WM_GRAPHNOTIFY);
+{	
 	m_DirectShow.Load(_T("aa.avi"));
+	m_DirectShow.setNotifyWindow(WM_GRAPHNOTIFY);
 
 	//https 미지원
 	//mp4 실행시 코덱 필요
