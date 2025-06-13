@@ -24,8 +24,8 @@ public:
     void setZero();
     void seek(REFERENCE_TIME* rtTotal, REFERENCE_TIME* rtNow);
 
-    long GetIt(UINT wparam, LONG lparam);
-    void setNotifyWindow(UINT msg);
+    long HandleEvent(UINT wparam, LONG lparam);
+    void SetNotifyWindow(UINT msg);
 
     void setVolume(long volume);         // 0 (최대) ~ -10000 (음소거)
     long getVolume() const;

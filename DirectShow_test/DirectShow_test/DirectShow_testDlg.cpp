@@ -22,7 +22,7 @@ BEGIN_MESSAGE_MAP(CDirectShow_testDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_TIMER()
 	ON_WM_HSCROLL()
-	ON_REGISTERED_MESSAGE(WM_GRAPHNOTIFY, OnGraphNotify)
+	ON_REGISTERED_MESSAGE(WM_GRAPHNOTIFY, OnHandleEvent)
 	ON_BN_CLICKED(IDC_BUTTON1, &CDirectShow_testDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CDirectShow_testDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CDirectShow_testDlg::OnBnClickedButton3)
@@ -92,10 +92,10 @@ void CDirectShow_testDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
 	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
-LRESULT CDirectShow_testDlg::OnGraphNotify(WPARAM wp, LPARAM lp)
+LRESULT CDirectShow_testDlg::OnHandleEvent(WPARAM wp, LPARAM lp)
 {
-	long evCode = m_DirectShow.GetIt((UINT)wp, (LONG)lp);
-	if (evCode == EC_COMPLETE)
+	long lCode = m_DirectShow.HandleEvent((UINT)wp, (LONG)lp);
+	if (lCode == EC_COMPLETE)
 	{
 		GetDlgItem(IDC_STATIC)->SetWindowText(_T("재생 완료"));
 		((CSliderCtrl*)GetDlgItem(IDC_SLIDER1))->SetPos(0);
@@ -123,7 +123,7 @@ void CDirectShow_testDlg::OnPaint()
 void CDirectShow_testDlg::OnBnClickedButton1()
 {	
 	m_DirectShow.Load(_T("aa.avi"));
-	m_DirectShow.setNotifyWindow(WM_GRAPHNOTIFY);
+	m_DirectShow.SetNotifyWindow(WM_GRAPHNOTIFY);
 
 	//https 미지원
 	//mp4 실행시 코덱 필요

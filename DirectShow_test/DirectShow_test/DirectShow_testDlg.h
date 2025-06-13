@@ -17,7 +17,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg LRESULT OnGraphNotify(WPARAM wp, LPARAM lp);
+	afx_msg LRESULT OnHandleEvent(WPARAM wp, LPARAM lp);
 	DECLARE_MESSAGE_MAP()
 
 private:
