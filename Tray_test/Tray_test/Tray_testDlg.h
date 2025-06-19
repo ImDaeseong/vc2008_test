@@ -17,6 +17,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnDestroy();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnMove(int x, int y);
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -31,6 +32,7 @@ private:
 	void HideTray();
 
 	void InitWebBrowser();
+	void MoveWebBrowser();
 	void NavigateA(CString strURL);
 	CWebBrowser2Ex m_WebBrowser;
 };

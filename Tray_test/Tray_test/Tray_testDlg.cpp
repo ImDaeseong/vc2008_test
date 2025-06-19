@@ -24,7 +24,8 @@ void CTray_testDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CTray_testDlg, CDialog)
 	ON_WM_DESTROY()
 	ON_WM_PAINT()
-	ON_WM_TIMER()
+	ON_WM_TIMER()	
+	ON_WM_MOVE()
 END_MESSAGE_MAP()
 
 BOOL CTray_testDlg::PreTranslateMessage(MSG* pMsg) 
@@ -39,7 +40,9 @@ void CTray_testDlg::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == 1)
 	{
 		KillTimer(1);
+		SetTimer(2, 2000, NULL);
 		ShowTray();
+		MoveWebBrowser();
 	}
 	else if (nIDEvent == 2)
 	{
@@ -49,8 +52,18 @@ void CTray_testDlg::OnTimer(UINT_PTR nIDEvent)
 	}
 }
 
+void CTray_testDlg::OnMove(int x, int y)
+{
+	CDialog::OnMove(x, y);
+
+	//MoveWebBrowser();
+}
+
 void CTray_testDlg::OnDestroy() 
 {
+	KillTimer(1);
+	KillTimer(2);
+
 	if(m_pbgImage != NULL)
 		delete m_pbgImage;
 	m_pbgImage = NULL;	
@@ -70,8 +83,7 @@ BOOL CTray_testDlg::OnInitDialog()
 
 	InitWebBrowser();
 
-	SetTimer(1, 1000, NULL);
-	SetTimer(2, 5000, NULL);
+	SetTimer(1, 2000, NULL);
 
 	return TRUE;  
 }
@@ -110,9 +122,16 @@ void CTray_testDlg::DrawSkin(CDC *pDC)
 
 void CTray_testDlg::InitWebBrowser()
 {	
-	m_WebBrowser.MoveWindow(10, 10, 476, 332);
+	m_WebBrowser.MoveWindow(-3000, -3000, 0, 0);
 
 	NavigateA("https://www.naver.com");
+}
+
+void CTray_testDlg::MoveWebBrowser()
+{
+	CRect rect;
+	GetClientRect(&rect);
+	m_WebBrowser.MoveWindow(rect.left, rect.top, rect.Width(), rect.Height());
 }
 
 void CTray_testDlg::NavigateA(CString strURL)
