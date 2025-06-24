@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gifPlayer_test", "gifPlayer_test\gifPlayer_test.vcproj", "{F366B0C2-E5F6-4949-8B5D-8C96D5552C4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F366B0C2-E5F6-4949-8B5D-8C96D5552C4C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F366B0C2-E5F6-4949-8B5D-8C96D5552C4C}.Debug|Win32.Build.0 = Debug|Win32
+		{F366B0C2-E5F6-4949-8B5D-8C96D5552C4C}.Release|Win32.ActiveCfg = Release|Win32
+		{F366B0C2-E5F6-4949-8B5D-8C96D5552C4C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
