@@ -31,5 +31,4 @@ private:
 	BOOL StartServiceMariaDB();
 	BOOL CreateRootPasswordMariaDB();
 	BOOL ConfigureMariaDBFirewall();
-	void CreateDatabase();
 };

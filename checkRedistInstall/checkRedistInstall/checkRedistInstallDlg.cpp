@@ -92,9 +92,6 @@ BOOL CcheckRedistInstallDlg::OnInitDialog()
 		//Windows 방화벽에서 포트 허용
 		bool bFirewall = ConfigureMariaDBFirewall(); 
 
-        //setup.sql 파일을 통해서 데이터베이스 생성
-		CreateDatabase();
-
 	}
 	else
 	{
@@ -248,7 +245,7 @@ BOOL CcheckRedistInstallDlg::CreateRootPasswordMariaDB()
 
 BOOL CcheckRedistInstallDlg::ConfigureMariaDBFirewall() 
 {
-	//3307 포트 허용
+	//3306 포트 허용
 	int nPort = 3306;
 
     CString strCommand = _T("netsh");
@@ -288,66 +285,6 @@ BOOL CcheckRedistInstallDlg::ConfigureMariaDBFirewall()
 
     CloseHandle(sei.hProcess);
     return bSuccess;
-}
-
-void CcheckRedistInstallDlg::CreateDatabase()
-{
-	/*
-	RegInfo reginfo;
-	CString strPath = reginfo.GetMariaDBPath(_T("INSTALLDIR"));
-
-	CString strBinPath;
-	strBinPath.Format(_T("%s\\bin\\mysql.exe"), strPath);
-
-	CString strSqlFilePath = _T("D:\\setupfiles\\setup.sql");
-
-	CString strRootPassword = _T("1234");
-
-	CStdioFile sqlFile;
-	CString strSql;
-	if (sqlFile.Open(strSqlFilePath, CFile::modeRead | CFile::typeText)) 
-	{
-		CString line;
-		while (sqlFile.ReadString(line)) 
-		{
-			strSql += line + _T("\n");
-		}
-		sqlFile.Close();
-	} 
-	else 
-	{
-		return;
-	}
-
-	CString strCmdLine;
-	strCmdLine.Format(_T("\"%s\" -u root -p%s --execute=\"%s\""), strBinPath, strRootPassword, strSql);
-
-	STARTUPINFO si = { sizeof(STARTUPINFO) };
-	PROCESS_INFORMATION pi;
-	ZeroMemory(&pi, sizeof(pi));
-
-	BOOL bRet = CreateProcess(NULL, (LPTSTR)strCmdLine.GetBuffer(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-	if (!bRet) 
-	{
-		return;
-	}
-
-	BOOL bSuccess = FALSE;
-	DWORD dwWaitResult = WaitForSingleObject(pi.hProcess, 30000); // 30초 대기
-	if (dwWaitResult == WAIT_OBJECT_0) 
-	{
-		DWORD dwExitCode = 0;
-		if (GetExitCodeProcess(pi.hProcess, &dwExitCode)) 
-		{
-			if (dwExitCode == 0) 
-			{
-				bSuccess = TRUE;
-			}
-		}
-	}
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-	*/
 }
 
 //MariaDB 설치
