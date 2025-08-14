@@ -40,7 +40,7 @@ void CaddFontsDlg::OnPaint()
 void CaddFontsDlg::OnBnClickedButton1()
 {
 	CString sFontFilePath;
-	sFontFilePath.Format("..\\RobotoSlab-Regular.ttf", GetModulePath());
+	sFontFilePath.Format("..\\RobotoSlab-Regular.ttf");
 
 	CString sFontName = "RobotoSlab-Regular";
 
@@ -126,7 +126,7 @@ BOOL CaddFontsDlg::InstallFont(const CString& sFontFilePath, const CString& sFon
         return TRUE;  
     }
 
-    // 5. 폰트 파일 복사
+    //폰트 파일 복사
     if (!CopyFile(sFontFilePath, strMyFontPath, TRUE))
     {
         return FALSE;
