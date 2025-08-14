@@ -20,6 +20,7 @@ void CaddFontsDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CaddFontsDlg, CDialog)
 	ON_WM_PAINT()
 	ON_BN_CLICKED(IDC_BUTTON1, &CaddFontsDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CaddFontsDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 BOOL CaddFontsDlg::OnInitDialog()
@@ -37,19 +38,31 @@ void CaddFontsDlg::OnPaint()
 	CPaintDC dc(this);
 }
 
+//폰트 설치
 void CaddFontsDlg::OnBnClickedButton1()
 {
 	CString sFontFilePath;
-	sFontFilePath.Format("..\\RobotoSlab-Regular.ttf");
+	sFontFilePath.Format("%s\\RobotoSlab-Regular.ttf", GetModulePath());
 
-	CString sFontName = "RobotoSlab-Regular";
+	CString sFontName = _T("RobotoSlab-Regular");
 
 	//폰트 설치
-	InstallFont(sFontFilePath, sFontName);
+	if( InstallFont(sFontFilePath, sFontName) )
+	{
+		AfxMessageBox(_T("설치 성공"), MB_ICONERROR);
+	}
+	else
+	{
+		AfxMessageBox(_T("설치 실패"), MB_ICONERROR);
+	}
+}
 
-	//설치된 폰트 목록 조회
+//폰트 조회
+void CaddFontsDlg::OnBnClickedButton2()
+{
 	GetFontList();
 }
+
 
 //설치된 폰트 목록
 void CaddFontsDlg::GetFontList()
@@ -172,4 +185,25 @@ BOOL CaddFontsDlg::InstallFont(const CString& sFontFilePath, const CString& sFon
 	}
 
     return TRUE;
+}
+
+CString CaddFontsDlg::GetModulePath(LPCTSTR pszSubPath)
+{
+    TCHAR buf[MAX_PATH + 1] = { 0 };
+    if (::GetModuleFileName(NULL, buf, MAX_PATH) == 0)
+        return _T("");
+
+    CString dirPath = buf;
+    int pos = dirPath.ReverseFind(_T('\\'));
+    if (pos >= 0)
+        dirPath = dirPath.Left(pos);
+
+    if (pszSubPath && pszSubPath[0] != _T('\0'))
+    {
+        if (pszSubPath[0] == _T('\\'))
+            return dirPath + pszSubPath;
+        else
+            return dirPath + _T("\\") + pszSubPath;
+    }
+    return dirPath;
 }

@@ -15,11 +15,13 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 	DECLARE_MESSAGE_MAP()
 
 private:
 	void GetFontList();
 	BOOL InstallFont(const CString& sFontFilePath, const CString& sFontName);
+	CString GetModulePath(LPCTSTR pszSubPath = _T(""));
 
-	CListBox m_fontList;
+	CListBox m_fontList;	
 };
