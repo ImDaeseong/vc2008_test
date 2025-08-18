@@ -16,12 +16,17 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButton3();
 	DECLARE_MESSAGE_MAP()
 
 private:
 	void GetFontList();
-	BOOL InstallFont(const CString& sFontFilePath, const CString& sFontName);
+	CString GetFontFolder();
+	bool InstallFont(const CString& sFontFilePath, const CString& sFontName);
+	bool UnInstallFont(const CString& sFontName);
+
 	CString GetModulePath(LPCTSTR pszSubPath = _T(""));
+	bool IsWin10Later();
 
 	CListBox m_fontList;	
 };
