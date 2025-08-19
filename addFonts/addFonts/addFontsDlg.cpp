@@ -134,44 +134,46 @@ CString CaddFontsDlg::GetFontFolder()
 bool CaddFontsDlg::InstallFont(const CString& sFontFilePath, const CString& sFontName)
 {    
     if (GetFileAttributes(sFontFilePath) == INVALID_FILE_ATTRIBUTES)
-        return false;
+		return false;
 
-    CString fontFolder = GetFontFolder();
-    if (fontFolder.IsEmpty())
-        return false;
+	CString fontFolder = GetFontFolder();
+	if (fontFolder.IsEmpty())
+		return false;
 
-    CString destPath = fontFolder + _T("\\") + sFontName + _T(".ttf");
+	CString destPath = fontFolder + _T("\\") + sFontName + _T(".ttf");
 
-    if (GetFileAttributes(destPath) != INVALID_FILE_ATTRIBUTES)
-        return true;
+	// 이미 설치된 경우
+	if (GetFileAttributes(destPath) != INVALID_FILE_ATTRIBUTES)
+		return true;
 
-    if (IsWin10Later())
-        SHCreateDirectoryEx(NULL, fontFolder, NULL);
+	if (IsWin10Later())
+		CreateDirectory(fontFolder, NULL);  
+	
+	if (!CopyFile(sFontFilePath, destPath, TRUE))
+		return false;
 
-    if (!CopyFile(sFontFilePath, destPath, TRUE))
-        return false;
+	if (AddFontResourceEx(destPath, FR_PRIVATE, NULL) == 0)
+	{
+		DeleteFile(destPath);
+		return false;
+	}
 
-    if (AddFontResourceEx(destPath, 0, NULL) == 0)
-    {
-        DeleteFile(destPath);
-        return false;
-    }
+	// 레지스트리 등록
+	HKEY hRootKey = IsWin10Later() ? HKEY_CURRENT_USER : HKEY_LOCAL_MACHINE;
+	HKEY hKey;
+	if (RegOpenKeyEx(hRootKey, _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"), 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS)
+	{
+		CString regName, regValue;
+		regName.Format(_T("%s (TrueType)"), sFontName);
+		regValue = IsWin10Later() ? destPath : sFontName + _T(".ttf");
+		RegSetValueEx(hKey, regName, 0, REG_SZ,	(const BYTE*)(LPCTSTR)regValue,	(regValue.GetLength() + 1) * sizeof(TCHAR));
+		RegCloseKey(hKey);
+	}
 
-    HKEY hRootKey = IsWin10Later() ? HKEY_CURRENT_USER : HKEY_LOCAL_MACHINE;
-    HKEY hKey;
-    if (RegOpenKeyEx(hRootKey, _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"), 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS)
-    {
-        CString regName, regValue;
-        regName.Format(_T("%s (TrueType)"), sFontName);
-        regValue = IsWin10Later() ? destPath : sFontName + _T(".ttf");
-        RegSetValueEx(hKey, regName, 0, REG_SZ, (const BYTE*)(LPCTSTR)regValue, (regValue.GetLength() + 1) * sizeof(TCHAR));
-        RegCloseKey(hKey);
-    }
+	DWORD_PTR result;
+	SendMessageTimeout(HWND_BROADCAST, WM_FONTCHANGE, 0, 0, SMTO_ABORTIFHUNG | SMTO_NOTIMEOUTIFNOTHUNG, 1000, &result);
 
-    DWORD_PTR result;
-    SendMessageTimeout(HWND_BROADCAST, WM_FONTCHANGE, 0, 0, SMTO_ABORTIFHUNG | SMTO_NOTIMEOUTIFNOTHUNG, 1000, &result);
-
-    return true;
+	return true;
 }
 
 //폰트 삭제
@@ -224,9 +226,54 @@ CString CaddFontsDlg::GetModulePath(LPCTSTR subPath)
 	return dir;
 }
 
-//Windows 10 이상 여부
+//Windows 버전 확인
 bool CaddFontsDlg::IsWin10Later()
 {
+	BOOL bResult = FALSE;
+	OSVERSIONINFOEX osvi;
+	BOOL bOsVersionInfoEx;
+
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
+
+	if (!bOsVersionInfoEx)
+	{
+		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
+			return bResult;
+	}
+
+	switch (osvi.dwPlatformId)
+	{
+		//Windows NT 계열 (Windows 2000, XP, Vista, 7, 8, 10, 11…)
+	case VER_PLATFORM_WIN32_NT:
+
+		if (osvi.dwMajorVersion >= 10)
+        {
+			//Windows 10 이상
+            bResult = TRUE;   
+        }
+		
+		if (osvi.dwMajorVersion >= 6 && osvi.dwMinorVersion >= 1)
+		{
+			//Windows 7 이상
+			bResult = TRUE;
+		}		
+		break;
+
+		//Windows 95, 98, ME (지원 불필요)
+	case VER_PLATFORM_WIN32_WINDOWS:
+		break;
+
+        //Win32s (아주 옛날 OS, 지원 불필요)
+	case VER_PLATFORM_WIN32s:
+		break;
+	}
+
+	return bResult;
+
+	/*
 	typedef LONG(WINAPI* RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
     HMODULE hMod = GetModuleHandle(_T("ntdll.dll"));
     if (hMod)
@@ -241,4 +288,5 @@ bool CaddFontsDlg::IsWin10Later()
         }
     }
     return false;
+	*/
 }
