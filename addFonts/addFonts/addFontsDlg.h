@@ -28,5 +28,5 @@ private:
 	CString GetModulePath(LPCTSTR pszSubPath = _T(""));
 	bool IsWin10Later();
 
-	CListBox m_fontList;	
+	CListBox m_fontList;
 };
