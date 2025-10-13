@@ -22,7 +22,9 @@ public:
     CLoLManager();
     ~CLoLManager();
 
-	LoLGameInfo GetDataInfo();
+	LoLGameInfo GetDataInfochat();
+	CString GetDataInfochatString();
+	CString GetDataInfosessionString();
 
 private:
 	CString GetLockFilePath();

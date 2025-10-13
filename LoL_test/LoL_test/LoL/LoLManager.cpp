@@ -233,7 +233,7 @@ CString CLoLManager::MakeAuthHeader(const CString& strPassword)
 	return strResult;
 }
 
-LoLGameInfo CLoLManager::GetDataInfo()
+LoLGameInfo CLoLManager::GetDataInfochat()
 {
     LoLGameInfo item;
 
@@ -329,3 +329,52 @@ LoLGameInfo CLoLManager::GetDataInfo()
     return item;
 }
 
+CString CLoLManager::GetDataInfochatString()
+{
+    CString strPath = GetLockFilePath();
+    if (strPath.IsEmpty())
+    {
+        return "";
+    }
+
+    LockFileInfo lockFileInfo = ParseLockFile(strPath);
+    if (lockFileInfo.strProtocol.IsEmpty() || lockFileInfo.strPassword.IsEmpty())
+    {
+        return "";
+    }
+
+	CString strHeaders = MakeAuthHeader(lockFileInfo.strPassword);
+  
+	CString strUrl;
+	strUrl.Format(_T("%s://127.0.0.1/lol-chat/v1/me"), lockFileInfo.strProtocol.GetString());
+	
+    std::string response = GetJson(strUrl, strHeaders, lockFileInfo.nPort);
+    OutputDebugString(response.c_str());
+
+	return CString(response.c_str());
+}
+
+CString CLoLManager::GetDataInfosessionString()
+{
+	CString strPath = GetLockFilePath();
+    if (strPath.IsEmpty())
+    {
+        return "";
+    }
+
+    LockFileInfo lockFileInfo = ParseLockFile(strPath);
+    if (lockFileInfo.strProtocol.IsEmpty() || lockFileInfo.strPassword.IsEmpty())
+    {
+        return "";
+    }
+
+	CString strHeaders = MakeAuthHeader(lockFileInfo.strPassword);
+  
+	CString strUrl;
+	strUrl.Format(_T("%s://127.0.0.1/lol-gameflow/v1/session"), lockFileInfo.strProtocol.GetString());
+	
+    std::string response = GetJson(strUrl, strHeaders, lockFileInfo.nPort);
+    OutputDebugString(response.c_str());
+
+	return CString(response.c_str());
+}
