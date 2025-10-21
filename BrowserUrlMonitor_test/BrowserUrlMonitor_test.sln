@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BrowserUrlMonitor_test", "BrowserUrlMonitor_test\BrowserUrlMonitor_test.vcproj", "{02D4ED60-8A7A-4A3E-AF21-6C630B9917DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02D4ED60-8A7A-4A3E-AF21-6C630B9917DD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{02D4ED60-8A7A-4A3E-AF21-6C630B9917DD}.Debug|Win32.Build.0 = Debug|Win32
+		{02D4ED60-8A7A-4A3E-AF21-6C630B9917DD}.Release|Win32.ActiveCfg = Release|Win32
+		{02D4ED60-8A7A-4A3E-AF21-6C630B9917DD}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
